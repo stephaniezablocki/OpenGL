@@ -46,10 +46,10 @@ int main(void)
     //Set escape key input
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     
+    // Dark blue background
+    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
     
     GLuint programID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glUseProgram(programID);
     
     GLuint VertexArrayID;
     glGenVertexArrays(1, &VertexArrayID);
@@ -67,8 +67,8 @@ int main(void)
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
     
     do{
-        //Clear the screen
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glUseProgram(programID);
         
         //1st attribute buffer : vertices
         glEnableVertexAttribArray(0);
