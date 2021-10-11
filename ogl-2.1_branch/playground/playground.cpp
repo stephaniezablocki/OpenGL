@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 #include <common/shader.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 using namespace glm;
 
 
@@ -66,9 +67,30 @@ int main(void)
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
     
+    //Matrix stuff
+    mat4 myMatrix;
+    vec4 myVector;
+    vec4 transformedVector = myMatrix * myVector;
+    
+    //Projection matrix: 45˚ field of view, 4:3 ratio, display range : 0.1 unit <-> 100 units
+    int width = 4;
+    int height = 3;
+    glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)width/(float)height, 0.1f, 100.0f);
+    
+    //Camera matrix
+    glm::mat4 View = glm::lookAt(
+                                 glm::vec3(4,3,3), glm::vec3(0,0,0), glm::vec3(0,1,0));
+    
+    glm:: mat4 Model = glm::mat4(1.0f);
+    glm::mat4 mvp = Projection * View * Model;
+    
+    GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+    
     do{
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(programID);
+        
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
         
         //1st attribute buffer : vertices
         glEnableVertexAttribArray(0);
@@ -84,5 +106,6 @@ int main(void)
         glfwPollEvents();
     }
     while(glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0);
+
 }
 
