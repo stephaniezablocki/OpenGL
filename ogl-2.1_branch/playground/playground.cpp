@@ -7,6 +7,11 @@
 
 #include <common/shader.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
+
 using namespace glm;
 
 
@@ -67,11 +72,6 @@ int main(void)
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
     
-    //Matrix stuff
-    mat4 myMatrix;
-    vec4 myVector;
-    vec4 transformedVector = myMatrix * myVector;
-    
     //Projection matrix: 45˚ field of view, 4:3 ratio, display range : 0.1 unit <-> 100 units
     int width = 4;
     int height = 3;
@@ -82,7 +82,11 @@ int main(void)
     glm::mat4 View = glm::lookAt(
                                  glm::vec3(4,3,3), glm::vec3(0,0,0), glm::vec3(0,1,0));
     
-    glm:: mat4 Model = glm::mat4(1.0f);
+    glm::mat4 translationMatrix = glm::translate(glm::mat4(), glm::vec3(2.0f, 0.0f, 0.0f));
+    glm::mat4 rotationMatrix = eulerAngleXYZ(0.0f,90.0f,0.0f);
+    glm::mat4 scalingMatrix = glm::scale(glm::vec3(4.0f, 4.0f, 4.0f));
+    
+    glm::mat4 Model = scalingMatrix * rotationMatrix * translationMatrix * glm::mat4(1.0f);
     glm::mat4 mvp = Projection * View * Model;
     
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
