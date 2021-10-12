@@ -75,7 +75,8 @@ int main(void)
     //Projection matrix: 45˚ field of view, 4:3 ratio, display range : 0.1 unit <-> 100 units
     int width = 4;
     int height = 3;
-    glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)width/(float)height, 0.1f, 100.0f);
+    //glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)width/(float)height, 0.1f, 100.0f);
+    glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f);
     
     //Camera matrix
     glm::mat4 View = glm::lookAt(
