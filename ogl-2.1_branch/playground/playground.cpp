@@ -86,7 +86,7 @@ int main(void)
     glm::mat4 rotationMatrix = eulerAngleXYZ(0.0f,90.0f,0.0f);
     glm::mat4 scalingMatrix = glm::scale(glm::vec3(4.0f, 4.0f, 4.0f));
     
-    glm::mat4 Model = scalingMatrix * rotationMatrix * translationMatrix * glm::mat4(1.0f);
+    glm::mat4 Model = rotationMatrix * translationMatrix * scalingMatrix * glm::mat4(1.0f);
     glm::mat4 mvp = Projection * View * Model;
     
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
