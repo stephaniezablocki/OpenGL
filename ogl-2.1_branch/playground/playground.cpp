@@ -188,6 +188,9 @@ int main(void)
     
     // Cull triangles which normal is not towards the camera
     glEnable(GL_CULL_FACE);
+    // Set the mouse at the center of the screen
+    glfwPollEvents();
+    glfwSetCursorPos(window, 1024/2, 768/2);
     
     do{
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
